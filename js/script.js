@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
             $('#color option[value ="selectTheme"]').hide();
 
 
-            /*If “heart js” is selected, hide the three “js puns” option elements in the “Color” drop
-            down menu, show the three “heart js” option elements, and update the “Color” field to
-            the first available color.*/
+        /*If “heart js” is selected, hide the three “js puns” option elements in the “Color” drop
+        down menu, show the three “heart js” option elements, and update the “Color” field to
+        the first available color.*/
         } else if ($('#design option:selected').val() === "heart js") {
             console.log('heart js selected!');
             $('#colors-js-puns').hide();
@@ -69,98 +69,96 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*********  Activities  ************/
 
-    //Appends total cost element onto Activities section
-    $('.activities').append(`<label id='totalDisplay'>Total Cost: </label>`);
-    let totalCost = 0;
+//Appends total cost element onto Activities section
+$('.activities').append(`<label id='totalDisplay'>Total Cost: </label>`);
+let totalCost = 0;
 
-    //Adds and subtracts total cost depending on if checbox is checked or not
-    $('.activities').change((e) => {
+//Adds and subtracts total cost depending on if checbox is checked or not
+$('.activities').change((e) => {
+    let allCheckboxes = $('input [type="checkbox"]');
+    console.log(allCheckboxes) 
+    let clickedActivity = e.target;
+    let clickedText = clickedActivity.parentNode.textContent;
+    let index = clickedText.indexOf('$');
+    let activityCost = parseInt(clickedText.slice(index + 1));
 
-        let allCheckboxes = $('input [type="checkbox"]');
-        console.log(allCheckboxes)
-        
-        
-        let clickedActivity = e.target;
-        let clickedText = clickedActivity.parentNode.textContent;
-        let index = clickedText.indexOf('$');
-        let activityCost = parseInt(clickedText.slice(index + 1));
+    if (clickedActivity.checked) {
+        totalCost += activityCost;
+        console.log(totalCost)
+    }else{
+        totalCost -= activityCost;
+        console.log(totalCost)
+    }
+//Updates Total Cost element dynamically
+$('#totalDisplay').text(`Total Cost: $${totalCost}`);
 
-        if (clickedActivity.checked) {
+//Dynamically disabling activities that are in conflict with checked activities
+    if (e.target.name === "js-frameworks" && e.target.checked) {
+        $(`input[name="express"]`).attr("disabled", true);
+        $(`input[name="express"]`).parent().css( "color", "gray" )
 
-            totalCost += activityCost;
-            console.log(totalCost)
-        } else {
-            totalCost -= activityCost;
-            console.log(totalCost)
-        }
-        //Updates Total Cost element dynamically
-        $('#totalDisplay').text(`Total Cost: $${totalCost}`);
+    } else if (e.target.name === "js-frameworks" && !e.target.checked) {
+        $(`input[name="express"]`).removeAttr("disabled");
+        $(`input[name="express"]`).parent().css( "color", "black" )
+    }
 
+    if (e.target.name === "js-libs" && e.target.checked) {
+        $('input[name="node"]').attr("disabled", true);
+        $(`input[name="node"]`).parent().css( "color", "gray" );
+    } else if (e.target.name === "js-libs" && !e.target.checked) {
+        $('input[name="node"]').removeAttr("disabled");
+        $(`input[name="node"]`).parent().css( "color", "black" )
+    }
 
-         if (e.target.name === "js-frameworks" && e.target.checked) {
-            $(`input[name="express"]`).attr("disabled", true);
-            $(`input[name="express"]`).parent().css( "color", "gray" )
-           
-          } else if (e.target.name === "js-frameworks" && !e.target.checked) {
-            $(`input[name="express"]`).removeAttr("disabled");
-            $(`input[name="express"]`).parent().css( "color", "black" )
-          }
+    if (e.target.name === "node" && e.target.checked) {
+        $('input[name="js-libs"]').attr("disabled", true);
+        $(`input[name="js-libs"]`).parent().css( "color", "gray" );
+    } else if (e.target.name === "node" && !e.target.checked) {
+        $('input[name="js-libs"]').removeAttr("disabled");
+        $(`input[name="js-libs"]`).parent().css( "color", "black" )
+    }
 
-         if (e.target.name === "js-libs" && e.target.checked) {
-            $('input[name="node"]').attr("disabled", true);
-            $(`input[name="node"]`).parent().css( "color", "gray" );
-          } else if (e.target.name === "js-libs" && !e.target.checked) {
-            $('input[name="node"]').removeAttr("disabled");
-            $(`input[name="node"]`).parent().css( "color", "black" )
-          }
-        
-          if (e.target.name === "node" && e.target.checked) {
-            $('input[name="js-libs"]').attr("disabled", true);
-            $(`input[name="js-libs"]`).parent().css( "color", "gray" );
-          } else if (e.target.name === "node" && !e.target.checked) {
-            $('input[name="js-libs"]').removeAttr("disabled");
-            $(`input[name="js-libs"]`).parent().css( "color", "black" )
-          }
-        
-          if (e.target.name === "express" && e.target.checked) {
-            $('input[name="js-frameworks"]').attr("disabled", true);
-            $('input[name="js-frameworks"]').parent().css("color","gray");
-          } else if (e.target.name === "express" && !e.target.checked) {
-            $('input[name="js-frameworks"]').removeAttr("disabled");
-            $('input[name="js-frameworks"]').parent().css("color","black");
-          } 
+    if (e.target.name === "express" && e.target.checked) {
+        $('input[name="js-frameworks"]').attr("disabled", true);
+        $('input[name="js-frameworks"]').parent().css("color","gray");
+    } else if (e.target.name === "express" && !e.target.checked) {
+        $('input[name="js-frameworks"]').removeAttr("disabled");
+        $('input[name="js-frameworks"]').parent().css("color","black");
+    } 
     });
 
 /*********  Payment  ************/
 
+    //Hiding Bitcoin and Paypal initially since Credit Card option is the default choice
     $('option[value="select_method"]').hide();
     $('p').eq(0).hide();
     $('p').eq(1).hide();
     $('option[value="credit card"]').attr('selected',true);
-
+    //If paypal is selected hide Bitcoin and Credit Card info and show Paypal Info
     $('#payment').change(()=>{
         if($('#payment option:selected').text() === 'PayPal'){
             console.log('PayPal has been selected');
             $('p').eq(0).show();
             $('#credit-card').hide();
             $('p').eq(1).hide();
+        //If Bitcoin is selected hide PayPal and Credit Card info and show Bitcoin Info
         }else if($('#payment option:selected').text() === 'Bitcoin'){
             console.log('Credit Card has been selected');
             $('p').eq(1).show();
             $('p').eq(0).hide();
             $('#credit-card').hide();
+        //Otherwise show Credit Card Div by default
         }else {
-        $('#credit-card').show();
-        $('p').eq(0).hide();
-        $('p').eq(1).hide();
+            $('#credit-card').show();
+            $('p').eq(0).hide();
+            $('p').eq(1).hide();
         }
 
     });
 
 /*********  Form Validation  ************/
 
-//Creating error messages
-
+//Creating error messages by inserting labels before the target element
  $('#name').before('<label id="name-error" class="error-message" >Please enter a valid name</label>');
  $('#mail').before('<label id="email-error" class="error-message" >Please enter a valid email address</label>');
  $('[name="all"]').before('<label id="activity-error" class="error-message" >------------------Please select an event---------------</label>');
@@ -310,21 +308,20 @@ const zipCode = $('#zip').val();
 
 //CVV Validation function
 $('#cvv-error').hide();
- $('form').submit((e)=>{
-    e.preventDefault();
+$('form').submit((e)=>{
+e.preventDefault();
 const cvv = $('#cvv').val();
 // const activities = $('.activities');
- if (isValidCvv(cvv) === false){
-    $('#cvv').css("border", "2px solid red");
-    $('#cvv-error').show();
+    if (isValidCvv(cvv) === false){
+        $('#cvv').css("border", "2px solid red");
+        $('#cvv-error').show();
     console.log("cvv Required"); 
- }else{
-    $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
-    $('#cvv-error').hide();
- }
- 
-
+    }else{
+        $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
+        $('#cvv-error').hide();
+    }
 });
+
 
 });
 
