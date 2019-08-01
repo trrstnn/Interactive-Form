@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
             $('#other-title').fadeOut();
         }
     });
+
+
+    /*********  T-shirts  ************/
+
+
     //Hide the “Select Theme” `option` element in the “Design” menu.
     //Hide the “Colors” `option` element in the “Color” menu if theme has not been selected yet 
     //and appends 'Please select a T-shirt theme' option in the meantime.
@@ -62,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+/*********  Activities  ************/
 
     //Appends total cost element onto Activities section
     $('.activities').append(`<label id='totalDisplay'>Total Cost: </label>`);
@@ -122,10 +128,198 @@ document.addEventListener('DOMContentLoaded', () => {
           } else if (e.target.name === "express" && !e.target.checked) {
             $('input[name="js-frameworks"]').removeAttr("disabled");
             $('input[name="js-frameworks"]').parent().css("color","black");
-          }
-        
-       
-       
-        
+          } 
     });
+
+/*********  Payment  ************/
+
+    $('option[value="select_method"]').hide();
+    $('p').eq(0).hide();
+    $('p').eq(1).hide();
+    $('option[value="credit card"]').attr('selected',true);
+
+    $('#payment').change(()=>{
+        if($('#payment option:selected').text() === 'PayPal'){
+            console.log('PayPal has been selected');
+            $('p').eq(0).show();
+            $('#credit-card').hide();
+            $('p').eq(1).hide();
+        }else if($('#payment option:selected').text() === 'Bitcoin'){
+            console.log('Credit Card has been selected');
+            $('p').eq(1).show();
+            $('p').eq(0).hide();
+            $('#credit-card').hide();
+        }else {
+        $('#credit-card').show();
+        $('p').eq(0).hide();
+        $('p').eq(1).hide();
+        }
+
+    });
+
+/*********  Form Validation  ************/
+
+//Creating error messages
+ $('#name').before('<label id="name-error" class="error-message" >Please enter a valid name</label>');
+ $('#mail').before('<label id="email-error" class="error-message" >Please enter a valid email</label>');
+ $('[name="all"]').before('<label id="activity-error" class="error-message" >Please select an event</label>');
+
+//Validation for name
+//creating label for error
+
+
+const isValidName = (name)=>{
+    let pattern = /^[a-z]+$/;
+    if(pattern.test(name)){
+        return true;
+    } else {
+        return false;
+    }
+};
+//Validation for Email
+
+const isValidEmail = (email)=>{
+    let pattern = /[^@]+@[^@.]+\.[a-z]+/i;
+    if(pattern.test(email)){
+        return true;
+    } else {
+        return false;
+    }
+};
+
+//Name Validation
+$('#email-error').hide();
+$('form').submit((e)=>{
+    e.preventDefault();
+const email = $('#mail').val();
+// const activities = $('.activities');
+ if (isValidEmail(email) === false){
+    $('input[type=email]').css("border", "2px solid red");
+    console.log("Email Required"); 
+    $('#name-error').show();
+ }else{
+    $('input[type=email]').css("border", "rgba(8, 63, 87, 0.7)")
+    $('#name-error').hide();
+ }
 });
+$('#name-error').hide();
+ $('form').submit((e)=>{
+     
+    e.preventDefault();
+    const name = $('#name').val();
+    if (isValidName(name) === false){
+        $('#name').css("border", "2px solid red");
+        $('#email-error').show();
+        console.log("Name Required")
+    }else{
+         $('#name').css("border", "rgba(8, 63, 87, 0.7)");
+         $('#email-error').hide();
+    }
+});
+//Activity Validation
+// let checkboxes = ;
+$('#activity-error').hide();
+const activitySelected = () =>{
+    if($('.activities input:checked').length > 0){
+        $('.activities').css("border","")
+        return true;
+    }else if($('.activities input:checked').length < 1){
+        console.log('please select an activity')
+        $('#activity-error').show();
+        $('.activities').css("border","2px solid red")
+        return false
+       
+    }
+};
+
+$('form').submit((e)=>{
+    e.preventDefault();
+    activitySelected();
+});
+//cvv
+
+//credit card
+
+//zipcode
+
+
+const isValidCard = (cardNumber)=>{
+    let pattern = /\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b/;
+    if(pattern.test(cardNumber)){
+        return true;
+    } else {
+        return false;
+    }
+};
+const isValidCvv = (cvv)=>{
+    let pattern = /[0-9]{3}/;
+    if(pattern.test(cvv)){
+        return true;
+    } else {
+        return false;
+    }
+};
+const isValidZipCode = (zipCode)=>{
+    let pattern = /[0-9]{5}/;
+    if(pattern.test(zipCode)){
+        return true;
+    } else {
+        return false;
+    }
+};
+
+
+$('form').submit((e)=>{
+    e.preventDefault();
+const cardNumber = $('#cc-num').val();
+// const activities = $('.activities');
+ if (isValidCard(cardNumber) === false){
+    $('#cc-num').css("border", "2px solid red");
+    console.log("CC number Required"); 
+ }else{
+    $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
+ }
+});
+
+
+$('form').submit((e)=>{
+    e.preventDefault();
+const zipCode = $('#zip').val();
+// const activities = $('.activities');
+ if (isValidZipCode(zipCode) === false){
+    $('#zip').css("border", "2px solid red");
+    console.log("Zip Code Required"); 
+ }else{
+    $('#zip').css("border", "rgba(8, 63, 87, 0.7)")
+ }
+});
+
+
+$('form').submit((e)=>{
+    e.preventDefault();
+const cardNumber = $('#cc-num').val();
+// const activities = $('.activities');
+ if (isValidCard(cardNumber) === false){
+    $('#cc-num').css("border", "2px solid red");
+    console.log("CC number Required"); 
+ }else{
+    $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
+ }
+});
+
+ $('form').submit((e)=>{
+    e.preventDefault();
+const cvv = $('#cvv').val();
+// const activities = $('.activities');
+ if (isValidCvv(cvv) === false){
+    $('#cvv').css("border", "2px solid red");
+    console.log("cvv Required"); 
+ }else{
+    $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
+ }
+ 
+
+});
+
+});
+
