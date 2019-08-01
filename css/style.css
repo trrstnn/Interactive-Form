@@ -45,6 +45,10 @@ form {
 	border-radius: 4px;
 }
 
+#other-title{
+	display:block;
+	height:20px;
+}
 fieldset,
 legend,
 button {
@@ -83,6 +87,7 @@ label {
 input,
 select {
 	margin-bottom: 1.125em;	
+	padding:10px 10px 10px 10px;
 }
 
 input {
@@ -127,6 +132,12 @@ input,
 select, 
 option {
 	font-family: 'roboto', sans-serif;
+}
+/* ================================= 
+  Error Messages
+==================================== */
+.error-message{
+	color:red;
 }
 
 /* ================================= 
