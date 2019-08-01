@@ -160,14 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
 /*********  Form Validation  ************/
 
 //Creating error messages
+
  $('#name').before('<label id="name-error" class="error-message" >Please enter a valid name</label>');
- $('#mail').before('<label id="email-error" class="error-message" >Please enter a valid email</label>');
- $('[name="all"]').before('<label id="activity-error" class="error-message" >Please select an event</label>');
+ $('#mail').before('<label id="email-error" class="error-message" >Please enter a valid email address</label>');
+ $('[name="all"]').before('<label id="activity-error" class="error-message" >------------------Please select an event---------------</label>');
+ $('#cc-num').before('<label id="cc-error" class="error-message" >Credit Card number is invalid</label>');
+ $('#zip').before('<label id="zip-error" class="error-message" >Invalid Zip Code</label>');
+ $('#cvv').before('<label id="cvv-error" class="error-message" >Incorrect CVV</label>');
 
-//Validation for name
-//creating label for error
 
 
+//Regex function for Name
 const isValidName = (name)=>{
     let pattern = /^[a-z]+$/;
     if(pattern.test(name)){
@@ -176,8 +179,8 @@ const isValidName = (name)=>{
         return false;
     }
 };
-//Validation for Email
 
+//Regex function for Email
 const isValidEmail = (email)=>{
     let pattern = /[^@]+@[^@.]+\.[a-z]+/i;
     if(pattern.test(email)){
@@ -187,62 +190,63 @@ const isValidEmail = (email)=>{
     }
 };
 
-//Name Validation
+// Validation for Email
 $('#email-error').hide();
 $('form').submit((e)=>{
-    e.preventDefault();
+e.preventDefault();
 const email = $('#mail').val();
 // const activities = $('.activities');
- if (isValidEmail(email) === false){
-    $('input[type=email]').css("border", "2px solid red");
-    console.log("Email Required"); 
-    $('#name-error').show();
- }else{
-    $('input[type=email]').css("border", "rgba(8, 63, 87, 0.7)")
-    $('#name-error').hide();
- }
+    if (isValidEmail(email) === false){
+        $('input[type=email]').css("border", "2px solid red");
+        console.log("Email Required"); 
+        $('#name-error').show();
+    }else{
+        $('input[type=email]').css("border", "rgba(8, 63, 87, 0.7)")
+        $('#name-error').hide();
+    }
 });
+
+// Validation for Name
 $('#name-error').hide();
- $('form').submit((e)=>{
-     
-    e.preventDefault();
-    const name = $('#name').val();
+$('form').submit((e)=>{
+e.preventDefault();
+const name = $('#name').val();
     if (isValidName(name) === false){
         $('#name').css("border", "2px solid red");
         $('#email-error').show();
         console.log("Name Required")
     }else{
-         $('#name').css("border", "rgba(8, 63, 87, 0.7)");
-         $('#email-error').hide();
-    }
+        $('#name').css("border", "rgba(8, 63, 87, 0.7)");
+        $('#email-error').hide();
+}
 });
+
 //Activity Validation
-// let checkboxes = ;
 $('#activity-error').hide();
 const activitySelected = () =>{
     if($('.activities input:checked').length > 0){
         $('.activities').css("border","")
+         $('#activity-error').hide();
         return true;
     }else if($('.activities input:checked').length < 1){
         console.log('please select an activity')
         $('#activity-error').show();
-        $('.activities').css("border","2px solid red")
+        // $('.activities').css("border","2px solid red")
         return false
        
     }
 };
 
+// Calling Activity Validation function in submit event handler
 $('form').submit((e)=>{
     e.preventDefault();
     activitySelected();
 });
-//cvv
-
-//credit card
-
-//zipcode
 
 
+/***********  Payment Validation  ************/
+
+//Regex function for Credit Card
 const isValidCard = (cardNumber)=>{
     let pattern = /\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b/;
     if(pattern.test(cardNumber)){
@@ -251,6 +255,8 @@ const isValidCard = (cardNumber)=>{
         return false;
     }
 };
+
+//Regex function for CVV
 const isValidCvv = (cvv)=>{
     let pattern = /[0-9]{3}/;
     if(pattern.test(cvv)){
@@ -259,6 +265,8 @@ const isValidCvv = (cvv)=>{
         return false;
     }
 };
+
+//Regex function for ZipCode
 const isValidZipCode = (zipCode)=>{
     let pattern = /[0-9]{5}/;
     if(pattern.test(zipCode)){
@@ -268,54 +276,51 @@ const isValidZipCode = (zipCode)=>{
     }
 };
 
-
+//Credit Card Validation function
+$('#cc-error').hide();
 $('form').submit((e)=>{
     e.preventDefault();
 const cardNumber = $('#cc-num').val();
 // const activities = $('.activities');
  if (isValidCard(cardNumber) === false){
     $('#cc-num').css("border", "2px solid red");
+    $('#cc-error').show();
     console.log("CC number Required"); 
  }else{
     $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
+    $('#cc-error').hide();
  }
 });
 
-
+//Zip Code Validation function
+$('#zip-error').hide();
 $('form').submit((e)=>{
     e.preventDefault();
 const zipCode = $('#zip').val();
 // const activities = $('.activities');
  if (isValidZipCode(zipCode) === false){
     $('#zip').css("border", "2px solid red");
+    $('#zip-error').show();
     console.log("Zip Code Required"); 
  }else{
+    $('#zip-error').hide();
     $('#zip').css("border", "rgba(8, 63, 87, 0.7)")
  }
 });
 
-
-$('form').submit((e)=>{
-    e.preventDefault();
-const cardNumber = $('#cc-num').val();
-// const activities = $('.activities');
- if (isValidCard(cardNumber) === false){
-    $('#cc-num').css("border", "2px solid red");
-    console.log("CC number Required"); 
- }else{
-    $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
- }
-});
-
+//CVV Validation function
+$('#cvv-error').hide();
  $('form').submit((e)=>{
     e.preventDefault();
 const cvv = $('#cvv').val();
 // const activities = $('.activities');
  if (isValidCvv(cvv) === false){
     $('#cvv').css("border", "2px solid red");
+    $('#cvv-error').show();
     console.log("cvv Required"); 
  }else{
     $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
+    $('#cvv-error').hide();
  }
  
 
