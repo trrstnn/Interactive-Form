@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
 /*********  Activities  ************/
 
 //Appends total cost element onto Activities section
@@ -156,7 +157,7 @@ $('#totalDisplay').text(`Total Cost: $${totalCost}`);
 
     });
 
-/*********  Form Validation  ************/
+ /*********  Form Validation  ************/
 
 //Creating error messages by inserting labels before the target element
  $('#name').before('<label id="name-error" class="error-message" >Please enter a valid name</label>');
@@ -197,10 +198,10 @@ const email = $('#mail').val();
     if (isValidEmail(email) === false){
         $('input[type=email]').css("border", "2px solid red");
         console.log("Email Required"); 
-        $('#name-error').show();
+        $('#email-error').show();
     }else{
         $('input[type=email]').css("border", "rgba(8, 63, 87, 0.7)")
-        $('#name-error').hide();
+        $('#email-error').hide();
     }
 });
 
@@ -211,11 +212,11 @@ e.preventDefault();
 const name = $('#name').val();
     if (isValidName(name) === false){
         $('#name').css("border", "2px solid red");
-        $('#email-error').show();
+        $('#name-error').show();
         console.log("Name Required")
     }else{
         $('#name').css("border", "rgba(8, 63, 87, 0.7)");
-        $('#email-error').hide();
+        $('#name-error').hide();
 }
 });
 
@@ -246,7 +247,8 @@ $('form').submit((e)=>{
 
 //Regex function for Credit Card
 const isValidCard = (cardNumber)=>{
-    let pattern = /\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b/;
+    // let pattern = /\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b/;
+    let pattern = /^\d{13,16}$/
     if(pattern.test(cardNumber)){
         return true;
     } else {
@@ -256,7 +258,7 @@ const isValidCard = (cardNumber)=>{
 
 //Regex function for CVV
 const isValidCvv = (cvv)=>{
-    let pattern = /[0-9]{3}/;
+    let pattern = /^[0-9]{3}$/;
     if(pattern.test(cvv)){
         return true;
     } else {
@@ -266,7 +268,7 @@ const isValidCvv = (cvv)=>{
 
 //Regex function for ZipCode
 const isValidZipCode = (zipCode)=>{
-    let pattern = /[0-9]{5}/;
+    let pattern = /^[0-9]{5}$/;
     if(pattern.test(zipCode)){
         return true;
     } else {
