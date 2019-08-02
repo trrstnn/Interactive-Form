@@ -190,6 +190,22 @@ const isValidEmail = (email)=>{
     }
 };
 
+
+
+// Validation for Name
+
+$('form').submit((e)=>{
+    e.preventDefault();
+    const name = $('#name').val();
+        if (isValidName(name) === false){
+            $('#name').css("border", "2px solid red");
+            $('#name-error').show();
+            console.log("Name Required")
+        }else{
+            $('#name').css("border", "rgba(8, 63, 87, 0.7)");
+            $('#name-error').hide();
+    }
+    });
 // Validation for Email
 
 $('form').submit((e)=>{
@@ -201,24 +217,9 @@ const email = $('#mail').val();
         console.log("Email Required"); 
         $('#email-error').show();
     }else{
-        $('input[type=email]').css("border", "rgba(8, 63, 87, 0.7)")
+        $('#mail').css("border", "rgba(8, 63, 87, 0.7)")
         $('#email-error').hide();
     }
-});
-
-// Validation for Name
-
-$('form').submit((e)=>{
-e.preventDefault();
-const name = $('#name').val();
-    if (isValidName(name) === false){
-        $('#name').css("border", "2px solid red");
-        $('#name-error').show();
-        console.log("Name Required")
-    }else{
-        $('#name').css("border", "rgba(8, 63, 87, 0.7)");
-        $('#name-error').hide();
-}
 });
 
 //Activity Validation
