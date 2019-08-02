@@ -168,7 +168,8 @@ $('#totalDisplay').text(`Total Cost: $${totalCost}`);
  $('#cvv').before('<label id="cvv-error" class="error-message" >Incorrect CVV</label>');
 
 
-
+ $('#email-error').hide();
+ $('#name-error').hide();
 //Regex function for Name
 const isValidName = (name)=>{
     let pattern = /^[a-z]+$/;
@@ -190,7 +191,7 @@ const isValidEmail = (email)=>{
 };
 
 // Validation for Email
-$('#email-error').hide();
+
 $('form').submit((e)=>{
 e.preventDefault();
 const email = $('#mail').val();
@@ -206,7 +207,7 @@ const email = $('#mail').val();
 });
 
 // Validation for Name
-$('#name-error').hide();
+
 $('form').submit((e)=>{
 e.preventDefault();
 const name = $('#name').val();
