@@ -139,18 +139,18 @@ $('#totalDisplay').text(`Total Cost: $${totalCost}`);
     $('#payment').change(()=>{
         if($('#payment option:selected').text() === 'PayPal'){
             console.log('PayPal has been selected');
-            $('p').eq(0).show();
+            $('p').eq(0).fadeIn();
             $('#credit-card').hide();
             $('p').eq(1).hide();
         //If Bitcoin is selected hide PayPal and Credit Card info and show Bitcoin Info
         }else if($('#payment option:selected').text() === 'Bitcoin'){
             console.log('Credit Card has been selected');
-            $('p').eq(1).show();
+            $('p').eq(1).fadeIn();
             $('p').eq(0).hide();
             $('#credit-card').hide();
         //Otherwise show Credit Card Div by default
         }else {
-            $('#credit-card').show();
+            $('#credit-card').slideDown();
             $('p').eq(0).hide();
             $('p').eq(1).hide();
         }
@@ -205,7 +205,7 @@ $('form').submit((e)=>{
             $('#name').css("border", "rgba(8, 63, 87, 0.7)");
             $('#name-error').hide();
     }
-    });
+    }); 
 // Validation for Email
 
 $('form').submit((e)=>{
