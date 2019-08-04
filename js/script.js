@@ -76,11 +76,11 @@ let totalCost = 0;
 
 //Adds and subtracts total cost depending on if checbox is checked or not
 $('.activities').change((e) => {
-    let allCheckboxes = $('input [type="checkbox"]');
+    const allCheckboxes = $('input [type="checkbox"]');
     console.log(allCheckboxes) 
-    let clickedActivity = e.target;
-    let clickedText = clickedActivity.parentNode.textContent;
-    let index = clickedText.indexOf('$');
+    const clickedActivity = e.target;
+    const clickedText = clickedActivity.parentNode.textContent;
+    const index = clickedText.indexOf('$');
     let activityCost = parseInt(clickedText.slice(index + 1));
 
     if (clickedActivity.checked) {
@@ -167,12 +167,10 @@ $('#totalDisplay').text(`Total Cost: $${totalCost}`);
  $('#zip').before('<label id="zip-error" class="error-message" >Invalid Zip Code</label>');
  $('#cvv').before('<label id="cvv-error" class="error-message" >Incorrect CVV</label>');
 
-
- $('#email-error').hide();
- $('#name-error').hide();
+ 
 //Regex function for Name
 const isValidName = (name)=>{
-    let pattern = /^[a-z]+$/;
+    const pattern = /^[a-z]+$/;
     if(pattern.test(name)){
         return true;
     } else {
@@ -182,7 +180,7 @@ const isValidName = (name)=>{
 
 //Regex function for Email
 const isValidEmail = (email)=>{
-    let pattern = /[^@]+@[^@.]+\.[a-z]+/i;
+    const pattern = /[^@]+@[^@.]+\.[a-z]+/i;
     if(pattern.test(email)){
         return true;
     } else {
@@ -191,58 +189,57 @@ const isValidEmail = (email)=>{
 };
 
 
-
-// Validation for Name
+//Hides all warning messages initially
+$('#activity-error').hide();
+$('#email-error').hide();
+$('#name-error').hide();
 
 $('form').submit((e)=>{
-    e.preventDefault();
+// Validation for Name
     const name = $('#name').val();
         if (isValidName(name) === false){
+            e.preventDefault();
             $('#name').css("border", "2px solid red");
             $('#name-error').show();
             console.log("Name Required")
         }else{
             $('#name').css("border", "rgba(8, 63, 87, 0.7)");
             $('#name-error').hide();
-    }
-    }); 
+        }
 // Validation for Email
+    const email = $('#mail').val();
+        if (isValidEmail(email) === false){
+            e.preventDefault();
+            $('input[type=email]').css("border", "2px solid red");
+            console.log("Email Required"); 
+            $('#email-error').show();
+        }else{
+            $('#mail').css("border", "rgba(8, 63, 87, 0.7)")
+            $('#email-error').hide();
+        }
+ //Activity Validation 
+    const activitySelected = () =>{
+        if($('.activities input:checked').length > 0){
+            $('.activities').css("border","")
+                $('#activity-error').hide();
+            return true;
+        }else if($('.activities input:checked').length < 1){
+            e.preventDefault();
+            console.log('please select an activity')
+            $('#activity-error').show();
+            // $('.activities').css("border","2px solid red")
+            return false 
+        }
+        };
+        activitySelected();
+    }); 
 
-$('form').submit((e)=>{
-e.preventDefault();
-const email = $('#mail').val();
-// const activities = $('.activities');
-    if (isValidEmail(email) === false){
-        $('input[type=email]').css("border", "2px solid red");
-        console.log("Email Required"); 
-        $('#email-error').show();
-    }else{
-        $('#mail').css("border", "rgba(8, 63, 87, 0.7)")
-        $('#email-error').hide();
-    }
-});
 
-//Activity Validation
-$('#activity-error').hide();
-const activitySelected = () =>{
-    if($('.activities input:checked').length > 0){
-        $('.activities').css("border","")
-         $('#activity-error').hide();
-        return true;
-    }else if($('.activities input:checked').length < 1){
-        console.log('please select an activity')
-        $('#activity-error').show();
-        // $('.activities').css("border","2px solid red")
-        return false
-       
-    }
-};
 
-// Calling Activity Validation function in submit event handler
-$('form').submit((e)=>{
-    e.preventDefault();
-    activitySelected();
-});
+
+
+
+
 
 
 /***********  Payment Validation  ************/
@@ -279,12 +276,16 @@ const isValidZipCode = (zipCode)=>{
 };
 
 //Credit Card Validation function
+//Hides all warning messages initially
 $('#cc-error').hide();
+$('#zip-error').hide();
+$('#cvv-error').hide();
+
 $('form').submit((e)=>{
-    e.preventDefault();
 const cardNumber = $('#cc-num').val();
 // const activities = $('.activities');
  if (isValidCard(cardNumber) === false){
+    e.preventDefault();
     $('#cc-num').css("border", "2px solid red");
     $('#cc-error').show();
     console.log("CC number Required"); 
@@ -292,15 +293,10 @@ const cardNumber = $('#cc-num').val();
     $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
     $('#cc-error').hide();
  }
-});
-
 //Zip Code Validation function
-$('#zip-error').hide();
-$('form').submit((e)=>{
-    e.preventDefault();
-const zipCode = $('#zip').val();
-// const activities = $('.activities');
+ const zipCode = $('#zip').val();
  if (isValidZipCode(zipCode) === false){
+    e.preventDefault();
     $('#zip').css("border", "2px solid red");
     $('#zip-error').show();
     console.log("Zip Code Required"); 
@@ -308,15 +304,11 @@ const zipCode = $('#zip').val();
     $('#zip-error').hide();
     $('#zip').css("border", "rgba(8, 63, 87, 0.7)")
  }
-});
 
 //CVV Validation function
-$('#cvv-error').hide();
-$('form').submit((e)=>{
-e.preventDefault();
 const cvv = $('#cvv').val();
-// const activities = $('.activities');
     if (isValidCvv(cvv) === false){
+        e.preventDefault();
         $('#cvv').css("border", "2px solid red");
         $('#cvv-error').show();
     console.log("cvv Required"); 
@@ -325,7 +317,6 @@ const cvv = $('#cvv').val();
         $('#cvv-error').hide();
     }
 });
-
 
 });
 
