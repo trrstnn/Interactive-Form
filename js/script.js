@@ -189,13 +189,48 @@ const isValidEmail = (email)=>{
         return false;
     }
 };
+/***********  Payment Validation  ************/
 
+//Regex function for Credit Card
+const isValidCard = (cardNumber)=>{
+    // let pattern = /\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b/;
+    let pattern = /^\d{13,16}$/
+    if(pattern.test(cardNumber)){
+        return true;
+    } else {
+        return false;
+    }
+};
+
+//Regex function for CVV
+const isValidCvv = (cvv)=>{
+    let pattern = /^[0-9]{3}$/;
+    if(pattern.test(cvv)){
+        return true;
+    } else {
+        return false;
+    }
+};
+
+//Regex function for ZipCode
+const isValidZipCode = (zipCode)=>{
+    let pattern = /^[0-9]{5}$/;
+    if(pattern.test(zipCode)){
+        return true;
+    } else {
+        return false;
+    }
+};
 
 //Hides all warning messages initially
 $('#activity-error').hide();
 $('#email-error').hide();
 $('#name-error').hide();
+$('#cc-error').hide();
+$('#zip-error').hide();
+$('#cvv-error').hide();
 
+//Event handler for all validations
 $('form').submit((e)=>{
 // Validation for Name
     const name = $('#name').val();
@@ -234,91 +269,42 @@ $('form').submit((e)=>{
         }
         };
         activitySelected();
+
+        const cardNumber = $('#cc-num').val();
+        // const activities = $('.activities');
+        if (isValidCard(cardNumber) === false){
+            e.preventDefault();
+            $('#cc-num').css("border", "2px solid red");
+            $('#cc-error').show();
+            console.log("CC number Required"); 
+        }else{
+            $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
+            $('#cc-error').hide();
+        }
+        //Zip Code Validation function
+        const zipCode = $('#zip').val();
+        if (isValidZipCode(zipCode) === false){
+            e.preventDefault();
+            $('#zip').css("border", "2px solid red");
+            $('#zip-error').show();
+            console.log("Zip Code Required"); 
+        }else{
+            $('#zip-error').hide();
+            $('#zip').css("border", "rgba(8, 63, 87, 0.7)")
+        }
+
+        //CVV Validation function
+        const cvv = $('#cvv').val();
+            if (isValidCvv(cvv) === false){
+                e.preventDefault();
+                $('#cvv').css("border", "2px solid red");
+                $('#cvv-error').show();
+            console.log("cvv Required"); 
+            }else{
+                $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
+                $('#cvv-error').hide();
+            }
     }); 
-
-
-
-
-
-
-
-
-
-/***********  Payment Validation  ************/
-
-//Regex function for Credit Card
-const isValidCard = (cardNumber)=>{
-    // let pattern = /\b\d{4}(| |-)\d{4}\1\d{4}\1\d{4}\b/;
-    let pattern = /^\d{13,16}$/
-    if(pattern.test(cardNumber)){
-        return true;
-    } else {
-        return false;
-    }
-};
-
-//Regex function for CVV
-const isValidCvv = (cvv)=>{
-    let pattern = /^[0-9]{3}$/;
-    if(pattern.test(cvv)){
-        return true;
-    } else {
-        return false;
-    }
-};
-
-//Regex function for ZipCode
-const isValidZipCode = (zipCode)=>{
-    let pattern = /^[0-9]{5}$/;
-    if(pattern.test(zipCode)){
-        return true;
-    } else {
-        return false;
-    }
-};
-
-//Credit Card Validation function
-//Hides all warning messages initially
-$('#cc-error').hide();
-$('#zip-error').hide();
-$('#cvv-error').hide();
-
-$('form').submit((e)=>{
-const cardNumber = $('#cc-num').val();
-// const activities = $('.activities');
- if (isValidCard(cardNumber) === false){
-    e.preventDefault();
-    $('#cc-num').css("border", "2px solid red");
-    $('#cc-error').show();
-    console.log("CC number Required"); 
- }else{
-    $('#cc-num').css("border", "rgba(8, 63, 87, 0.7)")
-    $('#cc-error').hide();
- }
-//Zip Code Validation function
- const zipCode = $('#zip').val();
- if (isValidZipCode(zipCode) === false){
-    e.preventDefault();
-    $('#zip').css("border", "2px solid red");
-    $('#zip-error').show();
-    console.log("Zip Code Required"); 
- }else{
-    $('#zip-error').hide();
-    $('#zip').css("border", "rgba(8, 63, 87, 0.7)")
- }
-
-//CVV Validation function
-const cvv = $('#cvv').val();
-    if (isValidCvv(cvv) === false){
-        e.preventDefault();
-        $('#cvv').css("border", "2px solid red");
-        $('#cvv-error').show();
-    console.log("cvv Required"); 
-    }else{
-        $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
-        $('#cvv-error').hide();
-    }
-});
 
 });
 
