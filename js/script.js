@@ -1,3 +1,4 @@
+
 //Focus on the first input field when the page loads
 //Sets the first textfield in focus when the page loads
 //Hides 'other-job' field unless 'other' is selected within selectfield
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#title').change(() => {
         if ($('#title option:selected').text() === 'Other') {
             $('#other-title').fadeIn(2000);
+            console.log('hello');
         } else {
             $('#other-title').fadeOut();
         }
