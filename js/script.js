@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //Shows 'other-job' input field if 'Other' is selected in Job Role selectfield
     $('#title').change(() => {
         if ($('#title option:selected').text() === 'Other') {
-            $('#other-title').fadeIn();
+            $('#other-title').fadeIn(2000);
         } else {
             $('#other-title').fadeOut();
         }
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if ($('#design option:selected').val() === "js puns") {
             console.log('js puns selected!');
             $('#colors-js-puns').hide();
-            $('#colors-js-puns').fadeIn();
+            $('#colors-js-puns').fadeIn(2000);
 
             $('#color option[value ="cornflowerblue"]').attr("selected", true);
             $('#color option[value ="tomato"]').hide();
@@ -139,20 +139,20 @@ $('#totalDisplay').text(`Total Cost: $${totalCost}`);
     $('#payment').change(()=>{
         if($('#payment option:selected').text() === 'PayPal'){
             console.log('PayPal has been selected');
-            $('p').eq(0).fadeIn();
-            $('#credit-card').hide();
+            $('p').eq(0).fadeIn(2000);
+            $('#credit-card').slideUp();
             $('p').eq(1).hide();
         //If Bitcoin is selected hide PayPal and Credit Card info and show Bitcoin Info
         }else if($('#payment option:selected').text() === 'Bitcoin'){
             console.log('Credit Card has been selected');
-            $('p').eq(1).fadeIn();
+            $('p').eq(1).fadeIn(2000);
             $('p').eq(0).hide();
-            $('#credit-card').hide();
+            $('#credit-card').slideUp();
         //Otherwise show Credit Card Div by default
         }else {
             $('#credit-card').slideDown();
-            $('p').eq(0).hide();
-            $('p').eq(1).hide();
+            $('p').eq(0).fadeOut();
+            $('p').eq(1).fadeOut();
         }
 
     });
