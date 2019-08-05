@@ -189,7 +189,7 @@ const isValidEmail = (email)=>{
         return false;
     }
 };
-/***********  Payment Validation  ************/
+
 
 //Regex function for Credit Card
 const isValidCard = (cardNumber)=>{
@@ -269,9 +269,10 @@ $('form').submit((e)=>{
         }
         };
         activitySelected();
-
+        if($('#payment option:selected').text() === 'Credit Card'){
         const cardNumber = $('#cc-num').val();
         // const activities = $('.activities');
+       
         if (isValidCard(cardNumber) === false){
             e.preventDefault();
             $('#cc-num').css("border", "2px solid red");
@@ -299,12 +300,16 @@ $('form').submit((e)=>{
                 e.preventDefault();
                 $('#cvv').css("border", "2px solid red");
                 $('#cvv-error').show();
-            console.log("cvv Required"); 
+                console.log("cvv Required"); 
             }else{
                 $('#cvv').css("border", "rgba(8, 63, 87, 0.7)")
                 $('#cvv-error').hide();
             }
+
+        };
     }); 
+
+    
 
 });
 
